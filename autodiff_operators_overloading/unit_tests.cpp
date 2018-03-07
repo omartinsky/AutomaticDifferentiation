@@ -90,6 +90,17 @@ void unit_tests()
         CHECK( e.get_derivative(f(a), a), numerical_derivative(f, a.get_value()));
     }
 
+	{
+		ADEngine e;
+		ADDouble a(e, 1.);
+		ADDouble b(e, 4.);
+
+		auto f = [](auto x, auto y) -> auto {
+			return x / y;
+		};
+		CHECK(e.get_derivative(f(a, b), b), numerical_derivative(f, a.get_value(), b.get_value(), 1));
+	}
+
     {
         ADEngine e;
         ADDouble a(e, 3.);
