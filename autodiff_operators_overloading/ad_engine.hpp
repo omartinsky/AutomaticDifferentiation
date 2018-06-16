@@ -137,13 +137,13 @@ inline ADDouble operator*(double l, const ADDouble& r)
 
 inline ADDouble operator/(const ADDouble& l, const ADDouble& r)
 {
-    ADDouble out(l._engine, l._value * r._value);
+    ADDouble out(l._engine, l._value / r._value);
 #ifdef AD_ENABLE_LOGGING
     logging::logBinaryOperation("/", out, l, r);
 #endif
     ADEngine& e = out._engine;
     e.add_direct_derivative(out, l, 1.0 / r._value);
-    e.add_direct_derivative(out, r, -l._value / r._value);
+    e.add_direct_derivative(out, r, -l._value / (r._value * r._value));
     return out;
 }
 
